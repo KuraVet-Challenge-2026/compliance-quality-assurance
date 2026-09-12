@@ -48,15 +48,7 @@ automatizar E2E antes de ter onde rodar isso de forma repetível.
 
 ## 3. Pirâmide de testes da Sprint 3
 
-```
-        /\
-       /E2E\          <- Sprint 4 (PBI 6.2), ainda não existe
-      /------\
-     /Integr.\        <- .NET (WebApplicationFactory) + testes manuais de API Java
-    /----------\
-   /   Unidade   \    <- xUnit/Moq (.NET) + validação manual de procedures/functions PL/SQL
-  /----------------\
-```
+<a href="https://ibb.co/NgqTgN2R"><img src="https://i.ibb.co/8nwYnxgk/piramide-testes-qa.jpg" alt="piramide-testes-qa" border="0"></a>
 
 Na Sprint 3, a base da pirâmide (unidade) é a que tem mais cobertura automatizada real (PBI 3.2, no
 microsserviço .NET). Nas demais camadas, a validação ainda é majoritariamente manual — isso é uma dívida

@@ -1,4 +1,4 @@
-# KuraVet — README de QA
+# KuraVet 
 
 **Sistema de Cuidado Contínuo Pet | Estratégia de Qualidade e Testes**
 

@@ -1,4 +1,4 @@
-# KuraVet 
+# KuraVet — README de QA
 
 **Sistema de Cuidado Contínuo Pet | Estratégia de Qualidade e Testes**
 
@@ -11,6 +11,17 @@ Serve de referência para quem for testar, revisar Pull Requests ou auditar a Sp
 - Pedro Henrique Luiz Alves Duarte – RM563405
 - Henrique Martins Oliveira – RM563620
 - Guilherme Macedo Martins – RM562396
+
+---
+
+> **⚠️ Premissas deste documento — validar com o time antes de adotar como processo oficial**
+> Este README foi montado a partir do que já está definido no Backlog da Sprint 3 (PBIs, Critérios de
+> Aceite, squads). Três pontos foram **assumidos**, não confirmados com o time, e devem ser revisados:
+> 1. **Ferramentas de teste de Mobile e Java:** assumimos que ainda não há automação (só roteiro manual).
+>    Se o time já decidiu usar Jest/Detox (mobile) ou JUnit/Testcontainers (Java), atualizar a seção 2.
+> 2. **Severidade e SLA de bugs (seção 5):** é uma proposta de ponto de partida, não uma regra combinada.
+> 3. **Ferramenta de rastreio de bugs/evidências:** assumimos Azure Boards (onde o backlog já está), por
+>    ser o que o projeto já usa — confirmar se é isso mesmo ou se vai existir outra ferramenta.
 
 ---
 
@@ -48,7 +59,7 @@ automatizar E2E antes de ter onde rodar isso de forma repetível.
 
 ## 3. Pirâmide de testes da Sprint 3
 
-<a href="https://ibb.co/NgqTgN2R"><img src="https://i.ibb.co/8nwYnxgk/piramide-testes-qa.jpg" alt="piramide-testes-qa" border="0"></a>
+![Pirâmide de Testes de QA — KuraVet Sprint 3](assets/piramide-testes-qa.svg)
 
 Na Sprint 3, a base da pirâmide (unidade) é a que tem mais cobertura automatizada real (PBI 3.2, no
 microsserviço .NET). Nas demais camadas, a validação ainda é majoritariamente manual — isso é uma dívida

@@ -1,3 +1,6 @@
 Guilherme Macedo Martins - RM562396
 Pedro Henrique Luiz Alves Duarte - RM563405
 Henrique Martins Oliveira - RM563620
+
+Azure Boards: https://dev.azure.com/KuraVet/KuraVet
+GitHub: https://github.com/KuraVet-Challenge-2026/compliance-quality-assurance.git

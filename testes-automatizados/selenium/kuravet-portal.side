@@ -1,0 +1,1280 @@
+{
+  "id": "8f3a1c20-5b7e-4d61-9a2f-kuravetqa0001",
+  "version": "2.0",
+  "name": "KuraVet - Portal Web",
+  "url": "http://localhost:8080",
+  "tests": [
+    {
+      "id": "ct01-login-veterinario",
+      "name": "CT-01 Login do veterinario com credenciais validas",
+      "commands": [
+        {
+          "id": "c0101",
+          "comment": "Abre a tela de login do portal",
+          "command": "open",
+          "target": "http://localhost:8080/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0102",
+          "comment": "Padroniza a janela para a gravacao",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0103",
+          "comment": "Confere que a tela de login carregou",
+          "command": "assertElementPresent",
+          "target": "id=username",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0104",
+          "comment": "Entrada: usuario de teste da carga inicial",
+          "command": "type",
+          "target": "id=username",
+          "targets": [],
+          "value": "veterinario"
+        },
+        {
+          "id": "c0105",
+          "comment": "Entrada: senha do usuario de teste",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "vet123"
+        },
+        {
+          "id": "c0106",
+          "comment": "Envia o formulario",
+          "command": "click",
+          "target": "css=button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0107",
+          "comment": "Aguarda o redirecionamento por perfil",
+          "command": "waitForElementPresent",
+          "target": "css=a[href='/portal/solicitacoes']",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c0108",
+          "comment": "Saida esperada: area da clinica disponivel",
+          "command": "assertElementPresent",
+          "target": "css=a[href='/portal/consultas']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0109",
+          "comment": "Saida esperada: sessao ativa com opcao de sair",
+          "command": "assertElementPresent",
+          "target": "css=form[action='/logout'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0110",
+          "comment": "Encerra a sessao",
+          "command": "click",
+          "target": "css=form[action='/logout'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0111",
+          "comment": "Aguarda a volta para o login",
+          "command": "waitForElementPresent",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c0112",
+          "comment": "Saida esperada: sessao encerrada",
+          "command": "assertText",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "Sessão encerrada com segurança."
+        }
+      ]
+    },
+    {
+      "id": "ct02-login-invalido",
+      "name": "CT-02 Login com senha incorreta e bloqueio de acesso",
+      "commands": [
+        {
+          "id": "c0201",
+          "comment": "Abre a tela de login do portal",
+          "command": "open",
+          "target": "http://localhost:8080/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0202",
+          "comment": "Padroniza a janela para a gravacao",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0203",
+          "comment": "Entrada: usuario valido",
+          "command": "type",
+          "target": "id=username",
+          "targets": [],
+          "value": "veterinario"
+        },
+        {
+          "id": "c0204",
+          "comment": "Entrada invalida: senha incorreta",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "senhaerrada"
+        },
+        {
+          "id": "c0205",
+          "comment": "Envia o formulario",
+          "command": "click",
+          "target": "css=button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0206",
+          "comment": "Aguarda o aviso de erro",
+          "command": "waitForElementPresent",
+          "target": "css=.aviso-erro",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c0207",
+          "comment": "Saida esperada: mensagem de credenciais invalidas",
+          "command": "assertText",
+          "target": "css=.aviso-erro",
+          "targets": [],
+          "value": "Usuário ou senha inválidos."
+        },
+        {
+          "id": "c0208",
+          "comment": "Saida esperada: segue na tela de login, sem acesso",
+          "command": "assertElementPresent",
+          "target": "id=username",
+          "targets": [],
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "ct03-bloqueio-por-perfil",
+      "name": "CT-03 Tutor bloqueado na area da clinica",
+      "commands": [
+        {
+          "id": "c0301",
+          "comment": "Abre a tela de login do portal",
+          "command": "open",
+          "target": "http://localhost:8080/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0302",
+          "comment": "Padroniza a janela para a gravacao",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0303",
+          "comment": "Entrada: usuario de perfil TUTOR",
+          "command": "type",
+          "target": "id=username",
+          "targets": [],
+          "value": "tutor"
+        },
+        {
+          "id": "c0304",
+          "comment": "Entrada: senha do tutor de teste",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "tutor123"
+        },
+        {
+          "id": "c0305",
+          "comment": "Envia o formulario",
+          "command": "click",
+          "target": "css=button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0306",
+          "comment": "Aguarda a area do tutor",
+          "command": "waitForElementPresent",
+          "target": "css=a[href='/tutor/consultas']",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c0307",
+          "comment": "Tenta abrir uma pagina exclusiva do veterinario",
+          "command": "open",
+          "target": "http://localhost:8080/portal/solicitacoes",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0308",
+          "comment": "Saida esperada: acesso negado por perfil",
+          "command": "assertText",
+          "target": "css=h1",
+          "targets": [],
+          "value": "Acesso não permitido para o seu perfil"
+        },
+        {
+          "id": "c0309",
+          "comment": "Saida esperada: nenhum dado da clinica exibido",
+          "command": "assertElementNotPresent",
+          "target": "css=table",
+          "targets": [],
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "ct04-aprovar-solicitacao",
+      "name": "CT-04 Aprovar solicitacao de teleconsulta",
+      "commands": [
+        {
+          "id": "c04pLa",
+          "comment": "Abre a tela de login",
+          "command": "open",
+          "target": "http://localhost:8080/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c04pLb",
+          "comment": "Entrada: usuario tutor (pre-condicao)",
+          "command": "type",
+          "target": "id=username",
+          "targets": [],
+          "value": "tutor"
+        },
+        {
+          "id": "c04pLc",
+          "comment": "Entrada: senha tutor (pre-condicao)",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "tutor123"
+        },
+        {
+          "id": "c04pLd",
+          "comment": "Envia o login",
+          "command": "click",
+          "target": "css=form[action='/login'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c04p1",
+          "comment": "Pre-condicao: tutor abre o formulario de solicitacao",
+          "command": "open",
+          "target": "http://localhost:8080/tutor/consultas/nova",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c04p2",
+          "comment": "Entrada: pet da carga inicial",
+          "command": "select",
+          "target": "id=idPet",
+          "targets": [],
+          "value": "value=1"
+        },
+        {
+          "id": "c04p3",
+          "comment": "Entrada: veterinaria Dra. Patricia Gomes",
+          "command": "select",
+          "target": "id=idVeterinario",
+          "targets": [],
+          "value": "value=1"
+        },
+        {
+          "id": "c04p4g",
+          "comment": "Gera uma data futura unica para esta execucao",
+          "command": "storeEval",
+          "target": "(function(){var d=new Date(2027,0,1);d.setDate(d.getDate()+Math.floor(Date.now()/1000)%900);return d.toISOString().slice(0,10);})()",
+          "targets": [],
+          "value": "dataQA"
+        },
+        {
+          "id": "c04p4e",
+          "comment": "Registra a data usada no log",
+          "command": "echo",
+          "target": "Data da solicitacao: ${dataQA}",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c04p4",
+          "comment": "Entrada: data futura gerada na execucao (o sistema nao aceita duas consultas ativas do mesmo pet na mesma data)",
+          "command": "type",
+          "target": "id=dataConsulta",
+          "targets": [],
+          "value": "${dataQA}"
+        },
+        {
+          "id": "c04p5",
+          "comment": "Entrada: tipo que identifica a solicitacao deste teste",
+          "command": "type",
+          "target": "id=tipoConsulta",
+          "targets": [],
+          "value": "Teleconsulta QA - Aprovar"
+        },
+        {
+          "id": "c04p6",
+          "comment": "Envia a solicitacao",
+          "command": "click",
+          "target": "css=form[action='/tutor/consultas'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c04p7",
+          "comment": "Aguarda a confirmacao",
+          "command": "waitForElementPresent",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c04p8",
+          "comment": "Pre-condicao atendida: solicitacao criada",
+          "command": "assertElementPresent",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c04p9",
+          "comment": "Encerra a sessao",
+          "command": "click",
+          "target": "css=form[action='/logout'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c04p9w",
+          "comment": "Aguarda a tela de login",
+          "command": "waitForElementPresent",
+          "target": "id=username",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c04va",
+          "comment": "Abre a tela de login",
+          "command": "open",
+          "target": "http://localhost:8080/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c04vb",
+          "comment": "Entrada: usuario veterinario",
+          "command": "type",
+          "target": "id=username",
+          "targets": [],
+          "value": "veterinario"
+        },
+        {
+          "id": "c04vc",
+          "comment": "Entrada: senha veterinario",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "vet123"
+        },
+        {
+          "id": "c04vd",
+          "comment": "Envia o login",
+          "command": "click",
+          "target": "css=form[action='/login'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0401",
+          "comment": "Abre a fila de solicitacoes",
+          "command": "open",
+          "target": "http://localhost:8080/portal/solicitacoes",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0402",
+          "comment": "Entrada: solicitacao criada pelo tutor esta na fila",
+          "command": "assertElementPresent",
+          "target": "xpath=//tr[td[normalize-space()='Teleconsulta QA - Aprovar']]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0403",
+          "comment": "Abre o detalhe da solicitacao",
+          "command": "click",
+          "target": "xpath=//tr[td[normalize-space()='Teleconsulta QA - Aprovar']]//a[contains(@href,'/portal/consultas/')]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0404",
+          "comment": "Confere o status inicial",
+          "command": "assertText",
+          "target": "css=.selo",
+          "targets": [],
+          "value": "SOLICITADA"
+        },
+        {
+          "id": "c0405",
+          "comment": "Aprova e agenda o atendimento",
+          "command": "click",
+          "target": "css=form[action*='/aprovar'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0406",
+          "comment": "Aguarda a volta para a fila",
+          "command": "waitForElementPresent",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c0407",
+          "comment": "Saida esperada: confirmacao da aprovacao",
+          "command": "assertText",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "Teleconsulta de Thor aprovada e agendada."
+        },
+        {
+          "id": "c0408",
+          "comment": "Saida esperada: solicitacao sai da fila de pendentes",
+          "command": "assertElementNotPresent",
+          "target": "xpath=//tr[td[normalize-space()='Teleconsulta QA - Aprovar']]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0409",
+          "comment": "Abre as consultas agendadas",
+          "command": "open",
+          "target": "http://localhost:8080/portal/consultas?status=AGENDADA",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0410",
+          "comment": "Saida esperada: consulta aparece como AGENDADA",
+          "command": "assertElementPresent",
+          "target": "xpath=//tr[td[normalize-space()='Teleconsulta QA - Aprovar']]",
+          "targets": [],
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "ct05-recusar-com-validacao",
+      "name": "CT-05 Recusar solicitacao com validacao do motivo",
+      "commands": [
+        {
+          "id": "c05pLa",
+          "comment": "Abre a tela de login",
+          "command": "open",
+          "target": "http://localhost:8080/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c05pLb",
+          "comment": "Entrada: usuario tutor (pre-condicao)",
+          "command": "type",
+          "target": "id=username",
+          "targets": [],
+          "value": "tutor"
+        },
+        {
+          "id": "c05pLc",
+          "comment": "Entrada: senha tutor (pre-condicao)",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "tutor123"
+        },
+        {
+          "id": "c05pLd",
+          "comment": "Envia o login",
+          "command": "click",
+          "target": "css=form[action='/login'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c05p1",
+          "comment": "Pre-condicao: tutor abre o formulario de solicitacao",
+          "command": "open",
+          "target": "http://localhost:8080/tutor/consultas/nova",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c05p2",
+          "comment": "Entrada: pet da carga inicial",
+          "command": "select",
+          "target": "id=idPet",
+          "targets": [],
+          "value": "value=2"
+        },
+        {
+          "id": "c05p3",
+          "comment": "Entrada: veterinaria Dra. Patricia Gomes",
+          "command": "select",
+          "target": "id=idVeterinario",
+          "targets": [],
+          "value": "value=1"
+        },
+        {
+          "id": "c05p4g",
+          "comment": "Gera uma data futura unica para esta execucao",
+          "command": "storeEval",
+          "target": "(function(){var d=new Date(2027,0,1);d.setDate(d.getDate()+Math.floor(Date.now()/1000)%900);return d.toISOString().slice(0,10);})()",
+          "targets": [],
+          "value": "dataQA"
+        },
+        {
+          "id": "c05p4e",
+          "comment": "Registra a data usada no log",
+          "command": "echo",
+          "target": "Data da solicitacao: ${dataQA}",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c05p4",
+          "comment": "Entrada: data futura gerada na execucao (o sistema nao aceita duas consultas ativas do mesmo pet na mesma data)",
+          "command": "type",
+          "target": "id=dataConsulta",
+          "targets": [],
+          "value": "${dataQA}"
+        },
+        {
+          "id": "c05p5",
+          "comment": "Entrada: tipo que identifica a solicitacao deste teste",
+          "command": "type",
+          "target": "id=tipoConsulta",
+          "targets": [],
+          "value": "Teleconsulta QA - Recusar"
+        },
+        {
+          "id": "c05p6",
+          "comment": "Envia a solicitacao",
+          "command": "click",
+          "target": "css=form[action='/tutor/consultas'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c05p7",
+          "comment": "Aguarda a confirmacao",
+          "command": "waitForElementPresent",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c05p8",
+          "comment": "Pre-condicao atendida: solicitacao criada",
+          "command": "assertElementPresent",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c05p9",
+          "comment": "Encerra a sessao",
+          "command": "click",
+          "target": "css=form[action='/logout'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c05p9w",
+          "comment": "Aguarda a tela de login",
+          "command": "waitForElementPresent",
+          "target": "id=username",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c05va",
+          "comment": "Abre a tela de login",
+          "command": "open",
+          "target": "http://localhost:8080/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c05vb",
+          "comment": "Entrada: usuario veterinario",
+          "command": "type",
+          "target": "id=username",
+          "targets": [],
+          "value": "veterinario"
+        },
+        {
+          "id": "c05vc",
+          "comment": "Entrada: senha veterinario",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "vet123"
+        },
+        {
+          "id": "c05vd",
+          "comment": "Envia o login",
+          "command": "click",
+          "target": "css=form[action='/login'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0501",
+          "comment": "Abre a fila de solicitacoes",
+          "command": "open",
+          "target": "http://localhost:8080/portal/solicitacoes",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0502",
+          "comment": "Entrada: solicitacao criada pelo tutor esta na fila",
+          "command": "assertElementPresent",
+          "target": "xpath=//tr[td[normalize-space()='Teleconsulta QA - Recusar']]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0503",
+          "comment": "Abre a tela de recusa desta solicitacao",
+          "command": "click",
+          "target": "xpath=//tr[td[normalize-space()='Teleconsulta QA - Recusar']]//a[contains(@href,'/recusar')]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0504",
+          "comment": "Confere que o formulario de recusa abriu",
+          "command": "assertElementPresent",
+          "target": "id=motivo",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0505",
+          "comment": "Entrada invalida: motivo com menos de 10 caracteres",
+          "command": "type",
+          "target": "id=motivo",
+          "targets": [],
+          "value": "curto"
+        },
+        {
+          "id": "c0506",
+          "comment": "Tenta confirmar a recusa",
+          "command": "click",
+          "target": "css=form[action*='/recusar'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0507",
+          "comment": "Aguarda a validacao",
+          "command": "waitForElementPresent",
+          "target": "css=.erro-campo",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c0508",
+          "comment": "Saida esperada: erro de campo e recusa nao concluida",
+          "command": "assertElementPresent",
+          "target": "css=.erro-campo",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0509",
+          "comment": "Entrada valida: motivo entre 10 e 300 caracteres",
+          "command": "type",
+          "target": "id=motivo",
+          "targets": [],
+          "value": "Caso exige exame presencial para avaliar a lesao de pele."
+        },
+        {
+          "id": "c0510",
+          "comment": "Confirma a recusa",
+          "command": "click",
+          "target": "css=form[action*='/recusar'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0511",
+          "comment": "Aguarda a volta para a fila",
+          "command": "waitForElementPresent",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c0511b",
+          "comment": "Saida esperada: confirmacao da recusa",
+          "command": "assertText",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "Solicitação de Luna recusada, com o motivo registrado."
+        },
+        {
+          "id": "c0512",
+          "comment": "Saida esperada: solicitacao sai da fila de pendentes",
+          "command": "assertElementNotPresent",
+          "target": "xpath=//tr[td[normalize-space()='Teleconsulta QA - Recusar']]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0513",
+          "comment": "Abre as consultas recusadas",
+          "command": "open",
+          "target": "http://localhost:8080/portal/consultas?status=RECUSADA",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0514",
+          "comment": "Saida esperada: solicitacao aparece como RECUSADA",
+          "command": "assertElementPresent",
+          "target": "xpath=//tr[td[normalize-space()='Teleconsulta QA - Recusar']]",
+          "targets": [],
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "ct06-emitir-diagnostico",
+      "name": "CT-06 Emitir diagnostico e encerrar a consulta",
+      "commands": [
+        {
+          "id": "c06pLa",
+          "comment": "Abre a tela de login",
+          "command": "open",
+          "target": "http://localhost:8080/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c06pLb",
+          "comment": "Entrada: usuario tutor (pre-condicao)",
+          "command": "type",
+          "target": "id=username",
+          "targets": [],
+          "value": "tutor"
+        },
+        {
+          "id": "c06pLc",
+          "comment": "Entrada: senha tutor (pre-condicao)",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "tutor123"
+        },
+        {
+          "id": "c06pLd",
+          "comment": "Envia o login",
+          "command": "click",
+          "target": "css=form[action='/login'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c06p1",
+          "comment": "Pre-condicao: tutor abre o formulario de solicitacao",
+          "command": "open",
+          "target": "http://localhost:8080/tutor/consultas/nova",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c06p2",
+          "comment": "Entrada: pet da carga inicial",
+          "command": "select",
+          "target": "id=idPet",
+          "targets": [],
+          "value": "value=4"
+        },
+        {
+          "id": "c06p3",
+          "comment": "Entrada: veterinaria Dra. Patricia Gomes",
+          "command": "select",
+          "target": "id=idVeterinario",
+          "targets": [],
+          "value": "value=1"
+        },
+        {
+          "id": "c06p4g",
+          "comment": "Gera uma data futura unica para esta execucao",
+          "command": "storeEval",
+          "target": "(function(){var d=new Date(2027,0,1);d.setDate(d.getDate()+Math.floor(Date.now()/1000)%900);return d.toISOString().slice(0,10);})()",
+          "targets": [],
+          "value": "dataQA"
+        },
+        {
+          "id": "c06p4e",
+          "comment": "Registra a data usada no log",
+          "command": "echo",
+          "target": "Data da solicitacao: ${dataQA}",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c06p4",
+          "comment": "Entrada: data futura gerada na execucao (o sistema nao aceita duas consultas ativas do mesmo pet na mesma data)",
+          "command": "type",
+          "target": "id=dataConsulta",
+          "targets": [],
+          "value": "${dataQA}"
+        },
+        {
+          "id": "c06p5",
+          "comment": "Entrada: tipo que identifica a solicitacao deste teste",
+          "command": "type",
+          "target": "id=tipoConsulta",
+          "targets": [],
+          "value": "Teleconsulta QA - Diagnostico"
+        },
+        {
+          "id": "c06p6",
+          "comment": "Envia a solicitacao",
+          "command": "click",
+          "target": "css=form[action='/tutor/consultas'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c06p7",
+          "comment": "Aguarda a confirmacao",
+          "command": "waitForElementPresent",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c06p8",
+          "comment": "Pre-condicao atendida: solicitacao criada",
+          "command": "assertElementPresent",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c06p9",
+          "comment": "Encerra a sessao",
+          "command": "click",
+          "target": "css=form[action='/logout'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c06p9w",
+          "comment": "Aguarda a tela de login",
+          "command": "waitForElementPresent",
+          "target": "id=username",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c06va",
+          "comment": "Abre a tela de login",
+          "command": "open",
+          "target": "http://localhost:8080/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c06vb",
+          "comment": "Entrada: usuario veterinario",
+          "command": "type",
+          "target": "id=username",
+          "targets": [],
+          "value": "veterinario"
+        },
+        {
+          "id": "c06vc",
+          "comment": "Entrada: senha veterinario",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "vet123"
+        },
+        {
+          "id": "c06vd",
+          "comment": "Envia o login",
+          "command": "click",
+          "target": "css=form[action='/login'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0601",
+          "comment": "Abre a fila de solicitacoes",
+          "command": "open",
+          "target": "http://localhost:8080/portal/solicitacoes",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0602",
+          "comment": "Pre-condicao: abre a solicitacao criada pelo tutor",
+          "command": "click",
+          "target": "xpath=//tr[td[normalize-space()='Teleconsulta QA - Diagnostico']]//a[contains(@href,'/portal/consultas/')]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0603",
+          "comment": "Pre-condicao: aprova para deixar AGENDADA",
+          "command": "click",
+          "target": "css=form[action*='/aprovar'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0603b",
+          "comment": "Aguarda a volta para a fila",
+          "command": "waitForElementPresent",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c0604",
+          "comment": "Abre as consultas agendadas",
+          "command": "open",
+          "target": "http://localhost:8080/portal/consultas?status=AGENDADA",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0604b",
+          "comment": "Abre a consulta agendada deste teste",
+          "command": "click",
+          "target": "xpath=//tr[td[normalize-space()='Teleconsulta QA - Diagnostico']]//a[contains(@href,'/portal/consultas/')]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0605",
+          "comment": "Entrada: consulta no status AGENDADA",
+          "command": "assertText",
+          "target": "css=.selo",
+          "targets": [],
+          "value": "AGENDADA"
+        },
+        {
+          "id": "c0606",
+          "comment": "Entrada invalida: diagnostico com menos de 15 caracteres",
+          "command": "type",
+          "target": "id=diagnostico",
+          "targets": [],
+          "value": "ok"
+        },
+        {
+          "id": "c0607",
+          "comment": "Tenta encerrar o atendimento",
+          "command": "click",
+          "target": "css=form[action*='/diagnostico'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0608",
+          "comment": "Aguarda a validacao",
+          "command": "waitForElementPresent",
+          "target": "css=.erro-campo",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c0609",
+          "comment": "Saida esperada: erro de campo e consulta segue AGENDADA",
+          "command": "assertElementPresent",
+          "target": "css=.erro-campo",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0610",
+          "comment": "Entrada valida: diagnostico entre 15 e 400 caracteres",
+          "command": "type",
+          "target": "id=diagnostico",
+          "targets": [],
+          "value": "Sopro cardiaco grau II identificado na ausculta. Mantida a medicacao e retorno em 30 dias."
+        },
+        {
+          "id": "c0611",
+          "comment": "Registra e encerra o atendimento",
+          "command": "click",
+          "target": "css=form[action*='/diagnostico'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0612",
+          "comment": "Aguarda a confirmacao do registro",
+          "command": "waitForElementPresent",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c0612b",
+          "comment": "Saida esperada: confirmacao do diagnostico",
+          "command": "assertText",
+          "target": "css=.aviso-sucesso",
+          "targets": [],
+          "value": "Diagnóstico registrado. Consulta encerrada."
+        },
+        {
+          "id": "c0613",
+          "comment": "Saida esperada: status passa para REALIZADA",
+          "command": "assertText",
+          "target": "css=.selo",
+          "targets": [],
+          "value": "REALIZADA"
+        },
+        {
+          "id": "c0614",
+          "comment": "Saida esperada: consulta nao pode mais ser alterada",
+          "command": "assertElementNotPresent",
+          "target": "id=diagnostico",
+          "targets": [],
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "ct07-triagem-ia",
+      "name": "CT-07 Triagem por IA a partir do relato do tutor",
+      "commands": [
+        {
+          "id": "c0701",
+          "comment": "Abre a tela de login do portal",
+          "command": "open",
+          "target": "http://localhost:8080/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0702",
+          "comment": "Padroniza a janela para a gravacao",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0703",
+          "comment": "Autentica como tutor",
+          "command": "type",
+          "target": "id=username",
+          "targets": [],
+          "value": "tutor"
+        },
+        {
+          "id": "c0704",
+          "comment": "Senha do tutor de teste",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "tutor123"
+        },
+        {
+          "id": "c0705",
+          "comment": "Envia o formulario",
+          "command": "click",
+          "target": "css=button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0706",
+          "comment": "Abre o formulario de nova triagem",
+          "command": "open",
+          "target": "http://localhost:8080/tutor/triagens/nova",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0707",
+          "comment": "Confere que o formulario carregou",
+          "command": "assertElementPresent",
+          "target": "id=relato",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0708",
+          "comment": "Entrada: pet Thor da carga inicial",
+          "command": "select",
+          "target": "id=idPet",
+          "targets": [],
+          "value": "value=1"
+        },
+        {
+          "id": "c0709",
+          "comment": "Entrada invalida: relato com menos de 10 caracteres",
+          "command": "type",
+          "target": "id=relato",
+          "targets": [],
+          "value": "tosse"
+        },
+        {
+          "id": "c0710",
+          "comment": "Tenta enviar o relato",
+          "command": "click",
+          "target": "css=form[action='/tutor/triagens'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0711",
+          "comment": "Aguarda a validacao do servidor",
+          "command": "waitForElementPresent",
+          "target": "css=.erro-campo",
+          "targets": [],
+          "value": "10000"
+        },
+        {
+          "id": "c0712",
+          "comment": "Saida esperada: erro de campo e triagem nao executada",
+          "command": "assertElementPresent",
+          "target": "css=.erro-campo",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0713",
+          "comment": "Entrada: pet Thor novamente",
+          "command": "select",
+          "target": "id=idPet",
+          "targets": [],
+          "value": "value=1"
+        },
+        {
+          "id": "c0714",
+          "comment": "Entrada valida: relato de quadro grave",
+          "command": "type",
+          "target": "id=relato",
+          "targets": [],
+          "value": "Meu cachorro esta com convulsao, respiracao muito dificil e nao consegue levantar desde ontem a noite."
+        },
+        {
+          "id": "c0715",
+          "comment": "Envia o relato para a triagem",
+          "command": "click",
+          "target": "css=form[action='/tutor/triagens'] button[type='submit']",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0716",
+          "comment": "Aguarda o resultado da triagem",
+          "command": "waitForElementPresent",
+          "target": "css=.orientacao-titulo",
+          "targets": [],
+          "value": "20000"
+        },
+        {
+          "id": "c0717",
+          "comment": "Saida esperada: classificacao de urgencia exibida",
+          "command": "assertElementPresent",
+          "target": "css=.selo",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0718",
+          "comment": "Saida esperada: orientacao gerada para o tutor",
+          "command": "assertElementPresent",
+          "target": "css=.orientacao-texto",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "c0719",
+          "comment": "Guarda o nivel classificado para conferencia no log",
+          "command": "storeText",
+          "target": "css=.selo",
+          "targets": [],
+          "value": "nivelUrgencia"
+        },
+        {
+          "id": "c0720",
+          "comment": "Registra o nivel no log da execucao",
+          "command": "echo",
+          "target": "Urgencia classificada: ${nivelUrgencia}",
+          "targets": [],
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "suites": [
+    {
+      "id": "suite-kuravet-portal",
+      "name": "Portal KuraVet - fluxos de veterinario e tutor",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 300,
+      "tests": [
+        "ct01-login-veterinario",
+        "ct02-login-invalido",
+        "ct03-bloqueio-por-perfil",
+        "ct04-aprovar-solicitacao",
+        "ct05-recusar-com-validacao",
+        "ct06-emitir-diagnostico",
+        "ct07-triagem-ia"
+      ]
+    }
+  ],
+  "urls": [
+    "http://localhost:8080"
+  ],
+  "plugins": []
+}

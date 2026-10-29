@@ -4,3 +4,4 @@ Henrique Martins Oliveira - RM563620
 
 Azure Boards: https://dev.azure.com/KuraVet/KuraVet
 GitHub: https://github.com/KuraVet-Challenge-2026/compliance-quality-assurance.git
+Video da automacao: https://youtu.be/8PCD84cKgsU

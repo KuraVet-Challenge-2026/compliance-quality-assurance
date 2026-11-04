@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-BR" lang="pt-BR">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080" />
+<title>CT-07 Triagem por IA a partir do relato do tutor</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">CT-07 Triagem por IA a partir do relato do tutor</td></tr>
+</thead><tbody>
+<!-- Abre a tela de login do portal -->
+<tr>
+	<td>open</td>
+	<td>http://localhost:8080/login</td>
+	<td></td>
+</tr>
+<!-- Autentica como tutor -->
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>tutor</td>
+</tr>
+<!-- Senha do tutor de teste -->
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>tutor123</td>
+</tr>
+<!-- Envia o formulario -->
+<tr>
+	<td>click</td>
+	<td>css=button[type=&#x27;submit&#x27;]</td>
+	<td></td>
+</tr>
+<!-- Abre o formulario de nova triagem -->
+<tr>
+	<td>open</td>
+	<td>http://localhost:8080/tutor/triagens/nova</td>
+	<td></td>
+</tr>
+<!-- Confere que o formulario carregou -->
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=relato</td>
+	<td></td>
+</tr>
+<!-- Entrada: pet Thor da carga inicial -->
+<tr>
+	<td>select</td>
+	<td>id=idPet</td>
+	<td>value=1</td>
+</tr>
+<!-- Entrada invalida: relato com menos de 10 caracteres -->
+<tr>
+	<td>type</td>
+	<td>id=relato</td>
+	<td>tosse</td>
+</tr>
+<!-- Tenta enviar o relato -->
+<tr>
+	<td>click</td>
+	<td>css=form[action=&#x27;/tutor/triagens&#x27;] button[type=&#x27;submit&#x27;]</td>
+	<td></td>
+</tr>
+<!-- Aguarda a validacao do servidor -->
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.erro-campo</td>
+	<td>10000</td>
+</tr>
+<!-- Saida esperada: erro de campo e triagem nao executada -->
+<tr>
+	<td>assertElementPresent</td>
+	<td>css=.erro-campo</td>
+	<td></td>
+</tr>
+<!-- Entrada: pet Thor novamente -->
+<tr>
+	<td>select</td>
+	<td>id=idPet</td>
+	<td>value=1</td>
+</tr>
+<!-- Entrada valida: relato de quadro grave -->
+<tr>
+	<td>type</td>
+	<td>id=relato</td>
+	<td>Meu cachorro esta com convulsao, respiracao muito dificil e nao consegue levantar desde ontem a noite.</td>
+</tr>
+<!-- Envia o relato para a triagem -->
+<tr>
+	<td>click</td>
+	<td>css=form[action=&#x27;/tutor/triagens&#x27;] button[type=&#x27;submit&#x27;]</td>
+	<td></td>
+</tr>
+<!-- Aguarda o resultado da triagem -->
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.orientacao-titulo</td>
+	<td>20000</td>
+</tr>
+<!-- Saida esperada: classificacao de urgencia exibida -->
+<tr>
+	<td>assertElementPresent</td>
+	<td>css=.selo</td>
+	<td></td>
+</tr>
+<!-- Saida esperada: orientacao gerada para o tutor -->
+<tr>
+	<td>assertElementPresent</td>
+	<td>css=.orientacao-texto</td>
+	<td></td>
+</tr>
+<!-- Guarda o nivel classificado para conferencia no log -->
+<tr>
+	<td>storeText</td>
+	<td>css=.selo</td>
+	<td>nivelUrgencia</td>
+</tr>
+<!-- Registra o nivel no log da execucao -->
+<tr>
+	<td>echo</td>
+	<td>Urgencia classificada: ${nivelUrgencia}</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

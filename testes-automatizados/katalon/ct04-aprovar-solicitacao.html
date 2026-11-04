@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-BR" lang="pt-BR">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080" />
+<title>CT-04 Aprovar solicitacao de teleconsulta</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">CT-04 Aprovar solicitacao de teleconsulta</td></tr>
+</thead><tbody>
+<!-- Abre a tela de login -->
+<tr>
+	<td>open</td>
+	<td>http://localhost:8080/login</td>
+	<td></td>
+</tr>
+<!-- Entrada: usuario tutor (pre-condicao) -->
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>tutor</td>
+</tr>
+<!-- Entrada: senha tutor (pre-condicao) -->
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>tutor123</td>
+</tr>
+<!-- Envia o login -->
+<tr>
+	<td>click</td>
+	<td>css=form[action=&#x27;/login&#x27;] button[type=&#x27;submit&#x27;]</td>
+	<td></td>
+</tr>
+<!-- Pre-condicao: tutor abre o formulario de solicitacao -->
+<tr>
+	<td>open</td>
+	<td>http://localhost:8080/tutor/consultas/nova</td>
+	<td></td>
+</tr>
+<!-- Entrada: pet da carga inicial -->
+<tr>
+	<td>select</td>
+	<td>id=idPet</td>
+	<td>value=1</td>
+</tr>
+<!-- Entrada: veterinaria Dra. Patricia Gomes -->
+<tr>
+	<td>select</td>
+	<td>id=idVeterinario</td>
+	<td>value=1</td>
+</tr>
+<!-- Gera uma data futura unica para esta execucao -->
+<tr>
+	<td>storeEval</td>
+	<td>(function(){var d=new Date(2027,0,1);d.setDate(d.getDate()+Math.floor(Date.now()/1000)%900);return d.toISOString().slice(0,10);})()</td>
+	<td>dataQA</td>
+</tr>
+<!-- Registra a data usada no log -->
+<tr>
+	<td>echo</td>
+	<td>Data da solicitacao: ${dataQA}</td>
+	<td></td>
+</tr>
+<!-- Entrada: data futura gerada na execucao (o sistema nao aceita duas consultas ativas do mesmo pet na mesma data) -->
+<tr>
+	<td>type</td>
+	<td>id=dataConsulta</td>
+	<td>${dataQA}</td>
+</tr>
+<!-- Entrada: tipo que identifica a solicitacao deste teste -->
+<tr>
+	<td>type</td>
+	<td>id=tipoConsulta</td>
+	<td>Teleconsulta QA - Aprovar</td>
+</tr>
+<!-- Envia a solicitacao -->
+<tr>
+	<td>click</td>
+	<td>css=form[action=&#x27;/tutor/consultas&#x27;] button[type=&#x27;submit&#x27;]</td>
+	<td></td>
+</tr>
+<!-- Aguarda a confirmacao -->
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.aviso-sucesso</td>
+	<td>10000</td>
+</tr>
+<!-- Pre-condicao atendida: solicitacao criada -->
+<tr>
+	<td>assertElementPresent</td>
+	<td>css=.aviso-sucesso</td>
+	<td></td>
+</tr>
+<!-- Encerra a sessao -->
+<tr>
+	<td>click</td>
+	<td>css=form[action=&#x27;/logout&#x27;] button[type=&#x27;submit&#x27;]</td>
+	<td></td>
+</tr>
+<!-- Aguarda a tela de login -->
+<tr>
+	<td>waitForElementPresent</td>
+	<td>id=username</td>
+	<td>10000</td>
+</tr>
+<!-- Abre a tela de login -->
+<tr>
+	<td>open</td>
+	<td>http://localhost:8080/login</td>
+	<td></td>
+</tr>
+<!-- Entrada: usuario veterinario -->
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>veterinario</td>
+</tr>
+<!-- Entrada: senha veterinario -->
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>vet123</td>
+</tr>
+<!-- Envia o login -->
+<tr>
+	<td>click</td>
+	<td>css=form[action=&#x27;/login&#x27;] button[type=&#x27;submit&#x27;]</td>
+	<td></td>
+</tr>
+<!-- Abre a fila de solicitacoes -->
+<tr>
+	<td>open</td>
+	<td>http://localhost:8080/portal/solicitacoes</td>
+	<td></td>
+</tr>
+<!-- Entrada: solicitacao criada pelo tutor esta na fila -->
+<tr>
+	<td>assertElementPresent</td>
+	<td>xpath=//tr[td[normalize-space()=&#x27;Teleconsulta QA - Aprovar&#x27;]]</td>
+	<td></td>
+</tr>
+<!-- Abre o detalhe da solicitacao -->
+<tr>
+	<td>click</td>
+	<td>xpath=//tr[td[normalize-space()=&#x27;Teleconsulta QA - Aprovar&#x27;]]//a[contains(@href,&#x27;/portal/consultas/&#x27;)]</td>
+	<td></td>
+</tr>
+<!-- Confere o status inicial -->
+<tr>
+	<td>assertText</td>
+	<td>css=.selo</td>
+	<td>SOLICITADA</td>
+</tr>
+<!-- Aprova e agenda o atendimento -->
+<tr>
+	<td>click</td>
+	<td>css=form[action*=&#x27;/aprovar&#x27;] button[type=&#x27;submit&#x27;]</td>
+	<td></td>
+</tr>
+<!-- Aguarda a volta para a fila -->
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.aviso-sucesso</td>
+	<td>10000</td>
+</tr>
+<!-- Saida esperada: confirmacao da aprovacao -->
+<tr>
+	<td>assertText</td>
+	<td>css=.aviso-sucesso</td>
+	<td>Teleconsulta de Thor aprovada e agendada.</td>
+</tr>
+<!-- Saida esperada: solicitacao sai da fila de pendentes -->
+<tr>
+	<td>assertElementNotPresent</td>
+	<td>xpath=//tr[td[normalize-space()=&#x27;Teleconsulta QA - Aprovar&#x27;]]</td>
+	<td></td>
+</tr>
+<!-- Abre as consultas agendadas -->
+<tr>
+	<td>open</td>
+	<td>http://localhost:8080/portal/consultas?status=AGENDADA</td>
+	<td></td>
+</tr>
+<!-- Saida esperada: consulta aparece como AGENDADA -->
+<tr>
+	<td>assertElementPresent</td>
+	<td>xpath=//tr[td[normalize-space()=&#x27;Teleconsulta QA - Aprovar&#x27;]]</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>
